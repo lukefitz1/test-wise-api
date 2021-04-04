@@ -1,6 +1,5 @@
 class ScenarioSerializer < ActiveModel::Serializer
-  attributes :id, :name
+  attributes :id, :name, :description
 
   has_many :steps
-  belongs_to :feature
 end

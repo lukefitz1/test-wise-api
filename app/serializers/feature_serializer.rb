@@ -1,12 +1,12 @@
 class FeatureSerializer < ActiveModel::Serializer
   attributes :id, :description, :scenarios
 
-  # belongs_to :project
   def scenarios
     object.scenarios.map do |scenario|
       {
         id: scenario.id,
         name: scenario.name,
+        description: scenario.description,
         steps: scenario.steps.map do |step|
           {
             id: step.id,

@@ -20,9 +20,43 @@ module Api
       @scenario = Scenario.new(scenario_params)
 
       if @scenario.save
-        render json: @scenario, status: :created #, location: @scenario
+        render json: @scenario, status: :created
       else
         render json: @scenario.errors, status: :unprocessable_entity
+      end
+    end
+
+    # POST /scenarios/create_scenario
+    def create_scenario
+      error = false
+
+      scenario_name = params['name']
+      scenario_description = params['description']
+      feature_id = params['feature_id']
+      scenario_steps = params['steps']
+      @scenario = Scenario.new(name: scenario_name, description: scenario_description, feature_id: feature_id)
+
+      unless @scenario.save
+        error = true
+      end
+
+      unless scenario_steps.empty?
+        scenario_steps.each do |step|
+          puts step['keyword']
+          puts step['step']
+
+          @step = Step.new(keyword: step['keyword'], step: step['step'], order: step['order'], scenario_id: @scenario.id)
+
+          unless @step.save
+            error = true
+          end
+        end
+      end
+
+      if error
+        render json: { error: 'there was an error saving the data' }, status: :unprocessable_entity
+      else
+        render json: @scenario, status: :created
       end
     end
 
@@ -48,7 +82,7 @@ module Api
 
     # Only allow a trusted parameter "white list" through.
     def scenario_params
-      params.permit(:name, :feature_id)
+      params.permit(:name, :description, :feature_id, :steps)
     end
   end
 end

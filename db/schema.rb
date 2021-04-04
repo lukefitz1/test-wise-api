@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_28_235157) do
+ActiveRecord::Schema.define(version: 2021_04_04_233738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2021_01_28_235157) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "feature_id"
+    t.string "description"
     t.index ["feature_id"], name: "index_scenarios_on_feature_id"
   end
 
