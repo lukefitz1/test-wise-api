@@ -82,7 +82,7 @@ module Api
 
     # Only allow a trusted parameter "white list" through.
     def scenario_params
-      params.permit(:name, :description, :feature_id, :steps)
+      params.permit(:name, :description, :feature_id, steps_attributes: [ :keyword, :step, :scenario_id, :order ])
     end
   end
 end
